@@ -5,15 +5,22 @@ import {
     updateArticle
 } from "../services/articleService";
 
+import "../styles/article.css";
+
 function Articles() {
     const [articles, setArticles] = useState([]);
-
     const [editId, setEditId] = useState(null);
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-	const [search, setSearch] = useState("");
-    const load = () => {
-        getArticles().then(res => setArticles(res.data));
+    const [search, setSearch] = useState("");
+
+    const load = async () => {
+        try {
+            const res = await getArticles();
+            setArticles(res.data);
+        } catch (err) {
+            console.error("Erreur API :", err);
+        }
     };
 
     useEffect(() => {
@@ -37,49 +44,59 @@ function Articles() {
         load();
     };
 
+    const filtered = articles.filter(a =>
+        a.title.toLowerCase().includes(search.toLowerCase())
+    );
+
     return (
         <div>
             <h1>🟠 Tech Blog</h1>
-			<input
-			    type="text"
-			    placeholder="Search article..."
-			    value={search}
-			    onChange={(e) => setSearch(e.target.value)}
-			/>
-            {articles
-                .filter(a =>
-                    a.title
-                        .toLowerCase()
-                        .includes(search.toLowerCase())
-                )
-                .map(a => (
-                    <div className="card" key={a.id}>
-                        <h2>{a.title}</h2>
-                        <p>{a.content}</p>
-            
-                        <button
-                            className="edit"
-                            onClick={() => edit(a)}
-                        >
+
+            <input
+                type="text"
+                placeholder="Search article..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+            />
+
+            {filtered.length === 0 && (
+                <p className="empty-message">Aucun article trouvé.</p>
+            )}
+
+            {filtered.map(a => (
+                <div className="article-card" key={a.id}>
+                    <h2>{a.title}</h2>
+                    <p>{a.content}</p>
+
+                    <div className="actions">
+                        <button className="edit" onClick={() => edit(a)}>
                             Edit
                         </button>
-            
-                        <button
-                            className="danger"
-                            onClick={() => remove(a.id)}
-                        >
+
+                        <button className="danger" onClick={() => remove(a.id)}>
                             Delete
                         </button>
                     </div>
+                </div>
             ))}
+
             {editId && (
                 <div className="form-box">
                     <h2>Edit Article</h2>
 
-                    <input value={title} onChange={(e) => setTitle(e.target.value)} />
-                    <textarea value={content} onChange={(e) => setContent(e.target.value)} />
+                    <input
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
 
-                    <button className="primary" onClick={save}>Save</button>
+                    <textarea
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)}
+                    />
+
+                    <button className="primary" onClick={save}>
+                        Save
+                    </button>
                 </div>
             )}
         </div>

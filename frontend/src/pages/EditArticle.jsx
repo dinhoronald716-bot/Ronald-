@@ -1,18 +1,44 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+    getArticles,
+    updateArticle
+} from "../services/articleService";
 
 function EditArticle() {
+    const { id } = useParams();
+    const navigate = useNavigate();
+
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 
-    const navigate = useNavigate();
+    useEffect(() => {
+        const loadArticle = async () => {
+            try {
+                const res = await getArticles();
+                const article = res.data.find(a => a.id === id);
 
-    const submit = (e) => {
+                if (article) {
+                    setTitle(article.title);
+                    setContent(article.content);
+                }
+            } catch (err) {
+                console.error("Erreur load article :", err);
+            }
+        };
+
+        loadArticle();
+    }, [id]);
+
+    const submit = async (e) => {
         e.preventDefault();
 
-        console.log(title, content);
-
-        navigate("/articles");
+        try {
+            await updateArticle(id, { title, content });
+            navigate("/articles");
+        } catch (err) {
+            console.error("Erreur update :", err);
+        }
     };
 
     return (
@@ -22,16 +48,12 @@ function EditArticle() {
             <form onSubmit={submit}>
                 <input
                     value={title}
-                    onChange={(e) =>
-                        setTitle(e.target.value)
-                    }
+                    onChange={(e) => setTitle(e.target.value)}
                 />
 
                 <textarea
                     value={content}
-                    onChange={(e) =>
-                        setContent(e.target.value)
-                    }
+                    onChange={(e) => setContent(e.target.value)}
                 />
 
                 <button className="primary">

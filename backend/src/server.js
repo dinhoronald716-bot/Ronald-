@@ -1,6 +1,5 @@
 const app = require("./app");
-require("./config/db");
-require("./config/initDb");
+require("./db/database");
 require("./config/seedDb");
 const PORT = 5000;
 

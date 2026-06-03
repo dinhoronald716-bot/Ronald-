@@ -1,15 +1,23 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { createArticle } from "../services/articleService";
 
 function CreateArticle() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    const navigate = useNavigate();
 
     const submit = async (e) => {
         e.preventDefault();
-        await createArticle({ title, content });
-        setTitle("");
-        setContent("");
+
+        try {
+            await createArticle({ title, content });
+            setTitle("");
+            setContent("");
+            navigate("/articles");
+        } catch (err) {
+            console.error("Erreur create article :", err);
+        }
     };
 
     return (

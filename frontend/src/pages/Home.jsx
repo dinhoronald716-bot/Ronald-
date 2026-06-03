@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import hero from "../assets/hero.png";
+import "../styles/home.css";
 
 function Home() {
+    const navigate = useNavigate();
     return (
         <div className="hero">
             <div className="hero-text">
@@ -14,7 +17,7 @@ function Home() {
                     for future developers.
                 </p>
 
-                <button>
+                <button onClick={() => navigate("/articles")}>
                     Explore Articles
                 </button>
             </div>

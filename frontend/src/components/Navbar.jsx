@@ -1,3 +1,5 @@
+import "../styles/article.css";
+import "../styles/form.css";
 import { Link } from "react-router-dom";
 import "../styles/navbar.css";
 
