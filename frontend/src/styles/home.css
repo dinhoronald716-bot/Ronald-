@@ -1,13 +1,12 @@
 .hero {
-    width: 100%;
-    max-width: none;
-    margin: 0 auto;
-    padding: 60px 20px;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 40px;
+    padding: 60px;
+    min-height: 100vh;
+    background: #0f172a;
+    color: white;
+    flex-wrap: wrap;
 }
 
 .hero-text {
@@ -20,6 +19,8 @@
     margin-bottom: 20px;
     line-height: 1.2;
     font-weight: 700;
+    letter-spacing: 0.5px;
+    text-align: left;
     color: #f97316;
 }
 

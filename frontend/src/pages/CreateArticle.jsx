@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createArticle } from "../services/articleService";
+import "../styles/createArticle.css";
 
 function CreateArticle() {
     const [title, setTitle] = useState("");
@@ -21,7 +22,8 @@ function CreateArticle() {
     };
 
     return (
-        <form className="card" onSubmit={submit}>
+        <div className="create-container">
+            <form className="card" onSubmit={submit}>
             <h2>➕ New Article</h2>
 
             <input
@@ -38,6 +40,7 @@ function CreateArticle() {
 
             <button className="primary">Publish</button>
         </form>
+        </div>
     );
 }
 
