@@ -1,0 +1,157 @@
+/* =========================
+   ABOUT PAGE GLOBAL
+========================= */
+
+.about-page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 60px 20px;
+    background: #0f172a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+/* =========================
+   HERO SECTION
+========================= */
+
+.about-hero {
+    text-align: center;
+    max-width: 900px;
+    margin: auto;
+}
+
+.about-hero h1 {
+    font-size: 48px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #f97316, #fb7185);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
+}
+
+.about-hero p {
+    font-size: 18px;
+    color: #cbd5e1;
+    line-height: 1.6;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+.about-section {
+    max-width: 900px;
+    margin: auto;
+    background: #1f2937;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    transition: 0.3s;
+}
+
+.about-section:hover {
+    transform: translateY(-5px);
+}
+
+.about-section h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #f97316;
+}
+
+.about-section p {
+    color: #cbd5e1;
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+/* =========================
+   LIST FEATURES
+========================= */
+
+.about-section ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.about-section ul li {
+    background: #111827;
+    margin-bottom: 10px;
+    padding: 12px 15px;
+    border-radius: 10px;
+    color: #e5e7eb;
+    transition: 0.3s;
+}
+
+.about-section ul li:hover {
+    background: #374151;
+    transform: translateX(5px);
+}
+
+/* =========================
+   STACK TAGS
+========================= */
+
+.stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.stack span {
+    background: linear-gradient(90deg, #f97316, #ef4444);
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    transition: 0.3s;
+}
+
+.stack span:hover {
+    transform: scale(1.05);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+    .about-hero h1 {
+        font-size: 34px;
+    }
+
+    .about-section {
+        padding: 20px;
+    }
+
+    .about-section h2 {
+        font-size: 20px;
+    }
+
+    .about-page {
+        padding: 40px 15px;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .about-hero h1 {
+        font-size: 28px;
+    }
+
+    .about-section {
+        padding: 15px;
+    }
+
+    .stack {
+        justify-content: center;
+    }
+}

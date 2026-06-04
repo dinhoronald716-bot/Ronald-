@@ -5,6 +5,9 @@ import Articles from "../pages/Articles";
 import CreateArticle from "../pages/CreateArticle";
 import EditArticle from "../pages/EditArticle";
 import NotFound from "../pages/NotFound";
+import About from "../pages/About";
+import Contact from "../pages/Contact";
+import ArticleDetails from "../pages/ArticleDetails";
 
 function AppRoutes() {
     return (
@@ -13,6 +16,9 @@ function AppRoutes() {
             <Route path="/articles" element={<Articles />} />
             <Route path="/create" element={<CreateArticle />} />
             <Route path="/edit/:id" element={<EditArticle />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/articles/:id" element={<ArticleDetails />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
     );

@@ -2,14 +2,15 @@ import { Link } from "react-router-dom";
 
 function NotFound() {
     return (
-        <div className="container">
-            <h1>404</h1>
+        <div className="page center">
 
-            <p>Page introuvable</p>
+            <h1>404</h1>
+            <p>Page not found</p>
 
             <Link to="/">
-                Retour accueil
+                <button>Go Home</button>
             </Link>
+
         </div>
     );
 }

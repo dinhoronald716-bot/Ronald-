@@ -1,0 +1,138 @@
+/* =========================
+   CONTACT PAGE
+========================= */
+
+.contact-page {
+    min-height: 100vh;
+    padding: 60px 20px;
+    background: #0f172a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.contact-hero {
+    text-align: center;
+    max-width: 800px;
+}
+
+.contact-hero h1 {
+    font-size: 48px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #22c55e, #f97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+}
+
+.contact-hero p {
+    color: #cbd5e1;
+    font-size: 18px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.contact-form {
+    width: 100%;
+    max-width: 600px;
+    background: #1f2937;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* INPUT GROUP */
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-size: 14px;
+    color: #f97316;
+}
+
+/* INPUT STYLE */
+
+.contact-form input,
+.contact-form textarea {
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #111827;
+    color: white;
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border: 1px solid #f97316;
+    transform: scale(1.02);
+}
+
+/* TEXTAREA */
+
+.contact-form textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+/* BUTTON */
+
+.btn-send {
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #f97316, #ef4444);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-send:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+    .contact-hero h1 {
+        font-size: 34px;
+    }
+
+    .contact-form {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .contact-hero h1 {
+        font-size: 28px;
+    }
+
+    .contact-page {
+        padding: 40px 15px;
+    }
+}

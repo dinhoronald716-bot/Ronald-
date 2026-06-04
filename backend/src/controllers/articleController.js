@@ -1,6 +1,6 @@
 const Article = require("../models/articleModel");
 
-// GET
+// GET ALL
 function getArticles(req, res) {
     Article.getAll((err, data) => {
         if (err) return res.status(500).json({ error: err.message });
@@ -8,21 +8,25 @@ function getArticles(req, res) {
     });
 }
 
-// POST
+// CREATE
 function createArticle(req, res) {
     const { title, content } = req.body;
+
+    if (!title || !content) {
+        return res.status(400).json({ error: "Title & content required" });
+    }
 
     Article.create(title, content, (err, data) => {
         if (err) return res.status(500).json({ error: err.message });
 
         res.status(201).json({
-            message: "Article créé",
+            message: "Article created",
             id: data.id
         });
     });
 }
 
-// PUT
+// UPDATE
 function updateArticle(req, res) {
     const { id } = req.params;
     const { title, content } = req.body;
@@ -30,7 +34,7 @@ function updateArticle(req, res) {
     Article.update(id, title, content, (err) => {
         if (err) return res.status(500).json({ error: err.message });
 
-        res.json({ message: "Article modifié" });
+        res.json({ message: "Article updated" });
     });
 }
 
@@ -41,7 +45,7 @@ function deleteArticle(req, res) {
     Article.remove(id, (err) => {
         if (err) return res.status(500).json({ error: err.message });
 
-        res.json({ message: "Article supprimé" });
+        res.json({ message: "Article deleted" });
     });
 }
 

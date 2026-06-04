@@ -1,106 +1,71 @@
-import { useEffect, useState } from "react";
-import {
-    getArticles,
-    deleteArticle,
-    updateArticle
-} from "../services/articleService";
-
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import "../styles/article.css";
 
 function Articles() {
-    const [articles, setArticles] = useState([]);
-    const [editId, setEditId] = useState(null);
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
-    const [search, setSearch] = useState("");
 
-    // 👉 10 ARTICLES RÉELS (fallback si API vide)
-    const fallbackArticles = [
+    const [search, setSearch] = useState("");
+    const handleSave = (article) => {
+        let saved = JSON.parse(localStorage.getItem("saved")) || [];
+    
+        saved.push(article);
+    
+        localStorage.setItem("saved", JSON.stringify(saved));
+    
+        alert("Article saved!");
+    };
+    const articles = [
         {
             id: 1,
-            title: "Comment apprendre React rapidement en 2026",
-            content: "React est une bibliothèque JavaScript très utilisée. Commence par les composants et hooks."
+            title: "🚀 How to Learn React in 2026",
+            content: "Master React step by step using components, hooks and real projects."
         },
         {
             id: 2,
-            title: "Node.js expliqué simplement",
-            content: "Node.js permet d'exécuter JavaScript côté serveur avec performance."
+            title: "⚡ Node.js for Beginners",
+            content: "Understand backend development with Node.js and Express."
         },
         {
             id: 3,
-            title: "Créer une API REST avec Express",
-            content: "Express facilite la création d’API REST pour ton backend."
+            title: "🧠 JavaScript ES6+ Explained",
+            content: "Learn modern JavaScript features used in real projects."
         },
         {
             id: 4,
-            title: "JavaScript moderne ES6+",
-            content: "Apprends let, const, arrow functions, async/await."
+            title: "🌐 Full Stack Developer Roadmap",
+            content: "Frontend + Backend + Database = complete developer skills."
         },
         {
             id: 5,
-            title: "Devenir développeur full-stack",
-            content: "Frontend + Backend + Base de données = full-stack."
+            title: "💾 REST API with Express",
+            content: "Build powerful APIs using Express and best practices."
         },
         {
             id: 6,
-            title: "Git et GitHub essentiels",
-            content: "Git permet de versionner ton code facilement."
+            title: "🔐 Git & GitHub Essentials",
+            content: "Version control system every developer must master."
         },
         {
             id: 7,
-            title: "React Hooks en pratique",
-            content: "useState et useEffect sont les hooks principaux."
+            title: "🎯 React Hooks Deep Dive",
+            content: "useState, useEffect and custom hooks explained clearly."
         },
         {
             id: 8,
-            title: "Créer un blog moderne",
-            content: "React + API + design responsive = blog moderne."
+            title: "📱 Responsive Web Design",
+            content: "Make websites look perfect on mobile, tablet and desktop."
         },
         {
             id: 9,
-            title: "Architecture Node.js propre",
-            content: "Sépare routes, controllers et services."
+            title: "🗄️ Database Basics",
+            content: "Learn SQL, PostgreSQL and how backend stores data."
         },
         {
             id: 10,
-            title: "Bonnes pratiques web",
-            content: "Code propre, simple, réutilisable et testé."
+            title: "🔥 Clean Code Practices",
+            content: "Write readable, maintainable and professional code."
         }
     ];
-
-    const load = async () => {
-        try {
-            const res = await getArticles();
-            const data = res.data || [];
-
-            setArticles(data.length >= 10 ? data : fallbackArticles);
-
-        } catch (err) {
-            console.error("Erreur API :", err);
-            setArticles(fallbackArticles);
-        }
-    };
-
-    useEffect(() => {
-        load();
-    }, []);
-
-    const remove = async (id) => {
-        await deleteArticle(id);
-        load();
-    };
-
-    const edit = (a) => {
-        setEditId(a.id);
-        setTitle(a.title);
-        setContent(a.content);
-    };
-
-    const save = async () => {
-        await updateArticle(editId, { title, content });
-        setEditId(null);
-        load();
-    };
 
     const filtered = articles.filter(a =>
         a.title.toLowerCase().includes(search.toLowerCase())
@@ -109,42 +74,59 @@ function Articles() {
     return (
         <div className="articles-page">
 
-            <h1>🟠 Tech Blog</h1>
+            {/* HEADER */}
+            <div className="articles-header">
 
+                <div>
+                    <h1>🟠 Tech Articles</h1>
+                    <p>Learn modern web development step by step</p>
+                </div>
+
+                {/* ✅ ADD BUTTON */}
+                <Link to="/create">
+                    <button className="btn-add">
+                        + Add Article
+                    </button>
+                </Link>
+
+            </div>
+
+            {/* SEARCH */}
             <input
-                className="search-input"
-                placeholder="Search article..."
+                className="search"
+                placeholder="Search articles..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
             />
 
-            {filtered.length === 0 && (
-                <p className="empty-message">
-                    Aucun article trouvé
-                </p>
-            )}
-
+            {/* GRID */}
             <div className="articles-grid">
+
                 {filtered.map((a) => (
                     <div className="article-card" key={a.id}>
+
                         <h2>{a.title}</h2>
+
                         <p>{a.content}</p>
 
-                        <div className="actions">
-                            <button className="edit" onClick={() => edit(a)}>Edit</button>
-                            <button className="danger" onClick={() => remove(a.id)}>Delete</button>
+                        <div className="card-actions">
+
+                            <Link to={`/articles/${a.id}`}>
+                                <button className="btn read">
+                                    Read More
+                                </button>
+                            </Link>
+
+                            <button className="btn save" onClick={() => handleSave(a)}>
+                                Save
+                            </button>
+
                         </div>
+
                     </div>
                 ))}
-            </div>
 
-            {editId && (
-                <div className="edit-box">
-                    <input value={title} onChange={(e) => setTitle(e.target.value)} />
-                    <textarea value={content} onChange={(e) => setContent(e.target.value)} />
-                    <button className="primary" onClick={save}>Save</button>
-                </div>
-            )}
+            </div>
 
         </div>
     );

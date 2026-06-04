@@ -1,0 +1,29 @@
+.article-details {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.article-details h1 {
+    font-size: 30px;
+}
+
+.meta {
+    display: flex;
+    gap: 15px;
+    color: #94a3b8;
+    margin: 10px 0;
+}
+
+.content {
+    background: #1f2937;
+    padding: 20px;
+    border-radius: 12px;
+    line-height: 1.6;
+}
+
+.back-btn {
+    color: #f97316;
+    display: inline-block;
+    margin-bottom: 15px;
+}

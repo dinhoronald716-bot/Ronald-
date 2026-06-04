@@ -7,11 +7,15 @@ function getAll(callback) {
 
 // CREATE
 function create(title, content, callback) {
+    if (!title || !content) {
+        return callback(new Error("Title and content required"));
+    }
+
     db.run(
         "INSERT INTO articles (title, content) VALUES (?, ?)",
         [title, content],
         function (err) {
-            callback(err, { id: this.lastID });
+            callback(err, { id: this?.lastID });
         }
     );
 }
