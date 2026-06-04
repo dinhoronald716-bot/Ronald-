@@ -1,76 +1,80 @@
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
 import "../styles/contact.css";
 
 function Contact() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [message, setMessage] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    emailjs.send(
+      "service_vmgzdys",
+      "template_6zx80hg",
+      {
+        from_name: name,
+        from_email: email,
+        message: message,
+      },
+      "6TfPUNkwBhSWn03wv"
+    ).then(() => {
+      alert("Message envoyé 🚀");
 
-        alert("Message sent successfully 🚀");
+      setName("");
+      setEmail("");
+      setMessage("");
+      setLoading(false);
+    }).catch((error) => {
+      console.log(error);
+      alert("Erreur envoi");
+      setLoading(false);
+    });
+  };
 
-        setName("");
-        setEmail("");
-        setMessage("");
-    };
+  return (
+    <div className="contact-page">
 
-    return (
-        <div className="contact-page">
+      <section className="contact-hero">
+        <h1>📩 Contact Me</h1>
+        <p>Got a question, idea or collaboration?</p>
+      </section>
 
-            {/* HERO */}
-            <section className="contact-hero">
-                <h1>📩 Contact Me</h1>
-                <p>
-                    Got a question, idea or collaboration? Send me a message!
-                </p>
-            </section>
+      <form className="contact-form" onSubmit={handleSubmit}>
 
-            {/* FORM */}
-            <form className="contact-form" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Your name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
 
-                <div className="input-group">
-                    <label>Name</label>
-                    <input
-                        type="text"
-                        placeholder="Your name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                    />
-                </div>
+        <input
+          type="email"
+          placeholder="Your email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
-                <div className="input-group">
-                    <label>Email</label>
-                    <input
-                        type="email"
-                        placeholder="Your email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
+        <textarea
+          placeholder="Your message"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          required
+        />
 
-                <div className="input-group">
-                    <label>Message</label>
-                    <textarea
-                        placeholder="Write your message..."
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        required
-                    />
-                </div>
+        <button type="submit" className="btn-send" disabled={loading}>
+          {loading ? "Envoi..." : "🚀 Send Message"}
+        </button>
 
-                <button type="submit" className="btn-send">
-                    🚀 Send Message
-                </button>
-
-            </form>
-
-        </div>
-    );
+      </form>
+    </div>
+  );
 }
 
 export default Contact;

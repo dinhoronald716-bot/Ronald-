@@ -1,45 +1,44 @@
 const db = require("../db/database");
 
-function seedDb() {
-    // CREATE TABLE
-    db.run(`
+async function seedDb() {
+    await db.query(`
         CREATE TABLE IF NOT EXISTS articles (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
             title TEXT NOT NULL,
             content TEXT NOT NULL,
             category TEXT DEFAULT 'general',
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     `);
 
-    // 🔥 RESET DATA (évite doublons)
-    db.run(`DELETE FROM articles`);
+    const result = await db.query("SELECT COUNT(*) FROM articles");
 
-    // 🔥 10 ARTICLES PRO
+    if (parseInt(result.rows[0].count) > 0) {
+        console.log("⚠️ DB already seeded");
+        return;
+    }
+
     const articles = [
-        ["🚀 React Guide 2026", "Learn React step by step with hooks and projects"],
-        ["⚡ Node.js Basics", "Backend development with Node.js and Express"],
-        ["🧠 JavaScript ES6+", "Modern JavaScript features explained simply"],
-        ["🌐 REST API Guide", "Build APIs using Express and best practices"],
-        ["💻 Full Stack Roadmap", "Frontend + Backend + Database complete guide"],
-        ["🔐 Git & GitHub", "Version control system essentials"],
-        ["📱 Responsive Design", "Mobile friendly UI design techniques"],
-        ["🗄️ SQL Database Basics", "Learn relational databases easily"],
-        ["🔥 Clean Code Tips", "Write professional and readable code"],
-        ["🐞 Debugging Guide", "How to fix bugs like a pro developer"]
+        ["🚀 React Guide 2026", "Learn React step by step"],
+        ["⚡ Node.js Basics", "Backend with Express"],
+        ["🧠 JavaScript ES6+", "Modern JS explained"],
+        ["🌐 REST API Guide", "Build APIs easily"],
+        ["💻 Full Stack Roadmap", "Frontend + Backend"],
+        ["🔐 Git & GitHub", "Version control"],
+        ["📱 Responsive Design", "Mobile UI"],
+        ["🗄️ SQL Basics", "Database fundamentals"],
+        ["🔥 Clean Code", "Better coding style"],
+        ["🐞 Debugging", "Fix bugs fast"]
     ];
 
-    const stmt = db.prepare(
-        "INSERT INTO articles (title, content) VALUES (?, ?)"
-    );
+    for (let a of articles) {
+        await db.query(
+            "INSERT INTO articles (title, content) VALUES ($1, $2)",
+            a
+        );
+    }
 
-    articles.forEach(a => {
-        stmt.run(a[0], a[1]);
-    });
-
-    stmt.finalize();
-
-    console.log("🌱 10 articles inserted successfully");
+    console.log("🌱 Seed completed");
 }
 
 module.exports = seedDb;

@@ -1,8 +1,11 @@
 const app = require("./app");
-require("./db/database");
-require("./config/seedDb");
-const PORT = 5000;
+const seedDb = require("./config/seedDb");
+require("dotenv").config();
 
-app.listen(PORT, () => {
-  console.log(`🚀 Serveur lancé sur http://localhost:${PORT}`);
+const PORT = process.env.PORT || 5000;
+
+seedDb();
+
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`🚀 Server running on port ${PORT}`);
 });

@@ -1,37 +1,36 @@
 const db = require("../db/database");
 
 // GET ALL
-function getAll(callback) {
-    db.all("SELECT * FROM articles", callback);
+async function getAll() {
+    const result = await db.query(
+        "SELECT * FROM articles ORDER BY id DESC"
+    );
+    return result.rows;
 }
 
 // CREATE
-function create(title, content, callback) {
-    if (!title || !content) {
-        return callback(new Error("Title and content required"));
-    }
-
-    db.run(
-        "INSERT INTO articles (title, content) VALUES (?, ?)",
-        [title, content],
-        function (err) {
-            callback(err, { id: this?.lastID });
-        }
+async function create(title, content) {
+    const result = await db.query(
+        "INSERT INTO articles (title, content) VALUES ($1, $2) RETURNING *",
+        [title, content]
     );
+    return result.rows[0];
 }
 
 // UPDATE
-function update(id, title, content, callback) {
-    db.run(
-        "UPDATE articles SET title=?, content=? WHERE id=?",
-        [title, content, id],
-        callback
+async function update(id, title, content) {
+    await db.query(
+        "UPDATE articles SET title=$1, content=$2 WHERE id=$3",
+        [title, content, id]
     );
 }
 
 // DELETE
-function remove(id, callback) {
-    db.run("DELETE FROM articles WHERE id=?", [id], callback);
+async function remove(id) {
+    await db.query(
+        "DELETE FROM articles WHERE id=$1",
+        [id]
+    );
 }
 
 module.exports = {

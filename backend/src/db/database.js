@@ -1,15 +1,13 @@
-const sqlite3 = require("sqlite3").verbose();
-const path = require("path");
+const { Pool } = require("pg");
+require("dotenv").config();
 
-const db = new sqlite3.Database(
-    path.join(__dirname, "../../database/blog.db"),
-    (err) => {
-        if (err) {
-            console.error("❌ SQLite error:", err.message);
-        } else {
-            console.log("✅ SQLite connected");
-        }
-    }
-);
+const pool = new Pool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT,
+    ssl: false   // 👈 IMPORTANT FIX
+});
 
-module.exports = db;
+module.exports = pool;

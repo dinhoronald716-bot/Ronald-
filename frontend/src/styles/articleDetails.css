@@ -1,29 +1,152 @@
-.article-details {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
+body {
+  background: radial-gradient(circle at top, #0f0f0f, #000000);
+  font-family: "Segoe UI", sans-serif;
+  color: white;
 }
 
-.article-details h1 {
-    font-size: 30px;
+/* CONTAINER */
+.detail-container {
+  width: 90%;
+  max-width: 1000px;
+  margin: auto;
+  padding: 40px 0;
+}
+
+/* CARD HEADER */
+.detail-card {
+  background: #111111;
+  border: 1px solid #222;
+  padding: 25px;
+  border-radius: 18px;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.detail-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(90deg, #ff7a00, #ff4500);
+}
+
+.detail-card h1 {
+  font-size: 2.2rem;
+  color: #ff7a00;
 }
 
 .meta {
-    display: flex;
-    gap: 15px;
-    color: #94a3b8;
-    margin: 10px 0;
+  color: #aaa;
+  margin-top: 8px;
 }
 
-.content {
-    background: #1f2937;
-    padding: 20px;
-    border-radius: 12px;
-    line-height: 1.6;
+.stats {
+  margin-top: 15px;
+  display: flex;
+  gap: 15px;
+  color: #ddd;
 }
 
+/* ACTION BUTTONS */
+.actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.like-btn,
+.dislike-btn {
+  border: none;
+  padding: 10px 15px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  transition: 0.3s;
+  background: #1a1a1a;
+}
+
+.like-btn:hover {
+  border: 1px solid #ff7a00;
+}
+
+.dislike-btn:hover {
+  border: 1px solid #ff3b3b;
+}
+
+.active-like {
+  background: #ff7a00;
+}
+
+.active-dislike {
+  background: #ff3b3b;
+}
+
+/* CONTENT */
+.content-card {
+  background: #0f0f0f;
+  border: 1px solid #222;
+  padding: 25px;
+  border-radius: 18px;
+}
+
+.content-card h2 {
+  color: #ff7a00;
+  margin-top: 20px;
+}
+
+.content-card p {
+  margin-top: 10px;
+  line-height: 1.8;
+  color: #ddd;
+}
+
+.tips {
+  margin-top: 20px;
+  padding: 15px;
+  border-left: 3px solid #ff7a00;
+  background: #111;
+  border-radius: 10px;
+}
+
+.tips ul {
+  margin-top: 10px;
+  padding-left: 20px;
+  color: #ccc;
+}
+
+/* LOADING */
+.loading {
+  text-align: center;
+  margin-top: 100px;
+  color: #ff7a00;
+}
 .back-btn {
-    color: #f97316;
-    display: inline-block;
-    margin-bottom: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #ff7a00;
+  text-decoration: none;
+  margin-bottom: 20px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  color: #ffb703;
+  transform: translateX(-5px);
+}
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .detail-card h1 {
+    font-size: 1.6rem;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
 }

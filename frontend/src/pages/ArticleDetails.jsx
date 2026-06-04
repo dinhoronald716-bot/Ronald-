@@ -1,82 +1,92 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getArticles } from "../services/articleService";
+import {
+  AiFillLike,
+  AiOutlineLike,
+  AiFillDislike,
+  AiOutlineDislike,
+  AiOutlineArrowLeft,
+} from "react-icons/ai";
+
+import {
+  getArticles,
+  likeArticle,
+  dislikeArticle,
+} from "../services/articleService";
+
 import "../styles/articleDetails.css";
 
 function ArticleDetails() {
-    const { id } = useParams();
+  const { id } = useParams();
 
-    const [article, setArticle] = useState(null);
-    const [loading, setLoading] = useState(true);
+  const [article, setArticle] = useState(null);
 
-    useEffect(() => {
-        const load = async () => {
-            try {
-                const res = await getArticles();
+  useEffect(() => {
+    loadArticle();
+  }, []);
 
-                const data = res.data; // 👈 TON API EST BIEN UN ARRAY
-				console.log(typeof id);
-                console.log("ALL ARTICLES:", data);
-                console.log("CURRENT ID:", id);
+  const loadArticle = async () => {
+    const res = await getArticles();
+    const found = res.data.find((a) => a.id == id);
+    setArticle(found);
+  };
 
-                // 🔥 FIX IMPORTANT
-                const found = data.find(
-                    (a) => Number(a.id) === Number(id)
-                );
+  // 👍 LIKE (backend)
+  const handleLike = async () => {
+    await likeArticle(article);
+    loadArticle(); // refresh => update UI
+  };
 
-                console.log("FOUND ARTICLE:", found);
+  // 👎 DISLIKE (backend)
+  const handleDislike = async () => {
+    await dislikeArticle(article);
+    loadArticle(); // refresh => update UI
+  };
 
-                setArticle(found || null);
-            } catch (err) {
-                console.error("Error:", err);
-            } finally {
-                setLoading(false);
-            }
-        };
+  if (!article) return <h2 className="loading">Chargement...</h2>;
 
-        load();
-    }, [id]);
+  return (
+    <div className="detail-container">
 
-    if (loading) {
-        return (
-            <div className="article-details">
-                <p>Loading article...</p>
-            </div>
-        );
-    }
+      {/* 🔙 BACK BUTTON */}
+      <Link to="/articles" className="back-btn">
+        <AiOutlineArrowLeft /> Retour
+      </Link>
 
-    if (!article) {
-        return (
-            <div className="article-details">
-                <p>Article not found ❌</p>
+      {/* HEADER */}
+      <div className="detail-card">
+        <h1>{article.title}</h1>
 
-                <Link to="/articles" className="back-btn">
-                    ← Back to Articles
-                </Link>
-            </div>
-        );
-    }
-
-    return (
-        <div className="article-details">
-
-            <Link to="/articles" className="back-btn">
-                ← Back to Articles
-            </Link>
-
-            <h1>{article.title}</h1>
-
-            <div className="meta">
-                <span>🧑 Author: Admin</span>
-                <span>📅 ID: {article.id}</span>
-            </div>
-
-            <div className="content">
-                <p>{article.content}</p>
-            </div>
-
+        <div className="stats">
+          <span>👍 {article.likes || 0}</span>
+          <span>👎 {article.dislikes || 0}</span>
         </div>
-    );
+
+        {/* ACTIONS */}
+        <div className="actions">
+          <button className="like-btn" onClick={handleLike}>
+            <AiFillLike /> Like
+          </button>
+
+          <button className="dislike-btn" onClick={handleDislike}>
+            <AiFillDislike /> Dislike
+          </button>
+        </div>
+      </div>
+
+      {/* CONTENT */}
+      <div className="content-card">
+        <h2>📌 Article complet</h2>
+        <p>{article.content}</p>
+
+        <h2>💡 Explication détaillée</h2>
+        <p>
+          Cet article est développé pour t’aider à comprendre les concepts
+          essentiels du développement web moderne avec React et API REST.
+        </p>
+      </div>
+    </div>
+  );
 }
 
 export default ArticleDetails;

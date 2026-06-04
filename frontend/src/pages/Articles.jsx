@@ -1,135 +1,223 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import {
+  AiOutlineLike,
+  AiFillLike,
+  AiOutlineDislike,
+  AiFillDislike,
+} from "react-icons/ai";
+import { getArticles } from "../services/articleService";
 import "../styles/article.css";
 
 function Articles() {
+  const [articles, setArticles] = useState([]);
+  const [search, setSearch] = useState("");
+  const [likedArticles, setLikedArticles] = useState([]);
+  const [dislikedArticles, setDislikedArticles] = useState([]);
 
-    const [search, setSearch] = useState("");
-    const handleSave = (article) => {
-        let saved = JSON.parse(localStorage.getItem("saved")) || [];
-    
-        saved.push(article);
-    
-        localStorage.setItem("saved", JSON.stringify(saved));
-    
-        alert("Article saved!");
-    };
-    const articles = [
-        {
-            id: 1,
-            title: "🚀 How to Learn React in 2026",
-            content: "Master React step by step using components, hooks and real projects."
-        },
-        {
-            id: 2,
-            title: "⚡ Node.js for Beginners",
-            content: "Understand backend development with Node.js and Express."
-        },
-        {
-            id: 3,
-            title: "🧠 JavaScript ES6+ Explained",
-            content: "Learn modern JavaScript features used in real projects."
-        },
-        {
-            id: 4,
-            title: "🌐 Full Stack Developer Roadmap",
-            content: "Frontend + Backend + Database = complete developer skills."
-        },
-        {
-            id: 5,
-            title: "💾 REST API with Express",
-            content: "Build powerful APIs using Express and best practices."
-        },
-        {
-            id: 6,
-            title: "🔐 Git & GitHub Essentials",
-            content: "Version control system every developer must master."
-        },
-        {
-            id: 7,
-            title: "🎯 React Hooks Deep Dive",
-            content: "useState, useEffect and custom hooks explained clearly."
-        },
-        {
-            id: 8,
-            title: "📱 Responsive Web Design",
-            content: "Make websites look perfect on mobile, tablet and desktop."
-        },
-        {
-            id: 9,
-            title: "🗄️ Database Basics",
-            content: "Learn SQL, PostgreSQL and how backend stores data."
-        },
-        {
-            id: 10,
-            title: "🔥 Clean Code Practices",
-            content: "Write readable, maintainable and professional code."
-        }
-    ];
+  useEffect(() => {
+    fetchArticles();
 
-    const filtered = articles.filter(a =>
-        a.title.toLowerCase().includes(search.toLowerCase())
+    const savedLikes =
+      JSON.parse(localStorage.getItem("likedArticles")) || [];
+    const savedDislikes =
+      JSON.parse(localStorage.getItem("dislikedArticles")) || [];
+
+    setLikedArticles(savedLikes);
+    setDislikedArticles(savedDislikes);
+  }, []);
+
+  const fetchArticles = async () => {
+    try {
+      const response = await getArticles();
+      setArticles(response.data);
+    } catch (error) {
+      console.error("Erreur :", error);
+    }
+  };
+
+  // LIKE
+  const handleLike = (id) => {
+    let updatedLikes = [...likedArticles];
+    let updatedDislikes = [...dislikedArticles];
+
+    if (likedArticles.includes(id)) {
+      updatedLikes = updatedLikes.filter((item) => item !== id);
+
+      setArticles((prev) =>
+        prev.map((article) =>
+          article.id === id
+            ? {
+                ...article,
+                likes: Math.max((article.likes || 0) - 1, 0),
+              }
+            : article
+        )
+      );
+    } else {
+      updatedLikes.push(id);
+
+      // enlever dislike si existe
+      updatedDislikes = updatedDislikes.filter((item) => item !== id);
+
+      setArticles((prev) =>
+        prev.map((article) =>
+          article.id === id
+            ? {
+                ...article,
+                likes: (article.likes || 0) + 1,
+                dislikes:
+                  article.dislikes > 0 ? article.dislikes - 1 : 0,
+              }
+            : article
+        )
+      );
+    }
+
+    setLikedArticles(updatedLikes);
+    setDislikedArticles(updatedDislikes);
+
+    localStorage.setItem("likedArticles", JSON.stringify(updatedLikes));
+    localStorage.setItem(
+      "dislikedArticles",
+      JSON.stringify(updatedDislikes)
     );
+  };
 
-    return (
-        <div className="articles-page">
+  // DISLIKE
+  const handleDislike = (id) => {
+    let updatedDislikes = [...dislikedArticles];
+    let updatedLikes = [...likedArticles];
 
-            {/* HEADER */}
-            <div className="articles-header">
+    if (dislikedArticles.includes(id)) {
+      updatedDislikes = updatedDislikes.filter((item) => item !== id);
 
-                <div>
-                    <h1>🟠 Tech Articles</h1>
-                    <p>Learn modern web development step by step</p>
-                </div>
+      setArticles((prev) =>
+        prev.map((article) =>
+          article.id === id
+            ? {
+                ...article,
+                dislikes: Math.max((article.dislikes || 0) - 1, 0),
+              }
+            : article
+        )
+      );
+    } else {
+      updatedDislikes.push(id);
 
-                {/* ✅ ADD BUTTON */}
-                <Link to="/create">
-                    <button className="btn-add">
-                        + Add Article
-                    </button>
+      updatedLikes = updatedLikes.filter((item) => item !== id);
+
+      setArticles((prev) =>
+        prev.map((article) =>
+          article.id === id
+            ? {
+                ...article,
+                dislikes: (article.dislikes || 0) + 1,
+                likes: article.likes > 0 ? article.likes - 1 : 0,
+              }
+            : article
+        )
+      );
+    }
+
+    setDislikedArticles(updatedDislikes);
+    setLikedArticles(updatedLikes);
+
+    localStorage.setItem(
+      "dislikedArticles",
+      JSON.stringify(updatedDislikes)
+    );
+    localStorage.setItem("likedArticles", JSON.stringify(updatedLikes));
+  };
+
+  const filteredArticles = articles.filter((article) =>
+    article.title.toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <div className="articles-page">
+      {/* HEADER */}
+      <header className="header">
+        <div>
+          <h1>🚀 Tech Articles</h1>
+          <p>Modern blog platform with React</p>
+        </div>
+
+        <Link to="/create">
+          <button className="btn-add">+ Add Article</button>
+        </Link>
+      </header>
+
+      {/* SEARCH */}
+      <input
+        type="text"
+        className="search"
+        placeholder="Search articles..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
+      {/* GRID */}
+      <div className="grid">
+        {filteredArticles.length > 0 ? (
+          filteredArticles.map((article) => (
+            <div className="card" key={article.id}>
+              <h2>{article.title}</h2>
+
+              <p>
+                {article.content?.length > 120
+                  ? article.content.slice(0, 120) + "..."
+                  : article.content}
+              </p>
+
+              <div className="actions">
+                <Link to={`/articles/${article.id}`}>
+                  <button className="btn-read">Read More</button>
                 </Link>
 
+                {/* REACTIONS */}
+                <div className="reactions">
+                  {/* LIKE */}
+                  <button
+                    className={`like-btn ${
+                      likedArticles.includes(article.id) ? "liked" : ""
+                    }`}
+                    onClick={() => handleLike(article.id)}
+                  >
+                    {likedArticles.includes(article.id) ? (
+                      <AiFillLike />
+                    ) : (
+                      <AiOutlineLike />
+                    )}
+                    <span>{article.likes || 0}</span>
+                  </button>
+
+                  {/* DISLIKE */}
+                  <button
+                    className={`dislike-btn ${
+                      dislikedArticles.includes(article.id)
+                        ? "disliked"
+                        : ""
+                    }`}
+                    onClick={() => handleDislike(article.id)}
+                  >
+                    {dislikedArticles.includes(article.id) ? (
+                      <AiFillDislike />
+                    ) : (
+                      <AiOutlineDislike />
+                    )}
+                    <span>{article.dislikes || 0}</span>
+                  </button>
+                </div>
+              </div>
             </div>
-
-            {/* SEARCH */}
-            <input
-                className="search"
-                placeholder="Search articles..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-            />
-
-            {/* GRID */}
-            <div className="articles-grid">
-
-                {filtered.map((a) => (
-                    <div className="article-card" key={a.id}>
-
-                        <h2>{a.title}</h2>
-
-                        <p>{a.content}</p>
-
-                        <div className="card-actions">
-
-                            <Link to={`/articles/${a.id}`}>
-                                <button className="btn read">
-                                    Read More
-                                </button>
-                            </Link>
-
-                            <button className="btn save" onClick={() => handleSave(a)}>
-                                Save
-                            </button>
-
-                        </div>
-
-                    </div>
-                ))}
-
-            </div>
-
-        </div>
-    );
+          ))
+        ) : (
+          <h2 className="empty">Aucun article trouvé</h2>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default Articles;

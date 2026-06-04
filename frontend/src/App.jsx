@@ -1,19 +1,28 @@
+import { BrowserRouter, useLocation } from "react-router-dom";
+
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import AppRoutes from "./routes/AppRoutes";
 
+function Layout() {
+  const location = useLocation();
+
+  const hideNavbarRoutes = ["/login", "/register"];
+  const hideNavbar = hideNavbarRoutes.includes(location.pathname);
+
+  return (
+    <>
+      {!hideNavbar && <Navbar />}
+      <AppRoutes />
+    </>
+  );
+}
+
 function App() {
-    return (
-        <>
-            <Navbar />
-
-            <main className="main-content">
-                <AppRoutes />
-            </main>
-
-            <Footer />
-        </>
-    );
+  return (
+    <BrowserRouter>
+      <Layout />
+    </BrowserRouter>
+  );
 }
 
 export default App;
