@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 import "../styles/auth.css";
 
 function Register() {
@@ -9,51 +10,55 @@ function Register() {
 
   const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+    try {
+      await axios.post(
+        "http://localhost:5000/api/users/register",
+        {
+          name,
+          email,
+          password,
+        }
+      );
 
-    const userExists = users.find((u) => u.email === email);
+      alert("Account created successfully 🚀");
 
-    if (userExists) {
-      alert("User already exists !");
-      return;
+      navigate("/login");
+    } catch (error) {
+      alert(
+        error.response?.data?.message ||
+        "Registration failed ❌"
+      );
     }
-
-    const newUser = {
-      name,
-      email,
-      password,
-    };
-
-    users.push(newUser);
-
-    localStorage.setItem("users", JSON.stringify(users));
-
-    alert("Account created successfully 🚀");
-
-    navigate("/login");
   };
 
   return (
     <div className="auth-container">
-      <form className="auth-form" onSubmit={handleRegister}>
+      <form
+        className="auth-form"
+        onSubmit={handleRegister}
+      >
         <h1>Create Account</h1>
 
         <input
           type="text"
-          placeholder="Name"
+          placeholder="Full Name"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) =>
+            setName(e.target.value)
+          }
           required
         />
 
         <input
           type="email"
-          placeholder="Email"
+          placeholder="Email Address"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) =>
+            setEmail(e.target.value)
+          }
           required
         />
 
@@ -61,14 +66,21 @@ function Register() {
           type="password"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) =>
+            setPassword(e.target.value)
+          }
           required
         />
 
-        <button type="submit">Register</button>
+        <button type="submit">
+          Register
+        </button>
 
         <p>
-          Already have an account? <Link to="/login">Login</Link>
+          Already have an account?{" "}
+          <Link to="/login">
+            Login
+          </Link>
         </p>
       </form>
     </div>

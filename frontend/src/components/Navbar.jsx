@@ -1,37 +1,76 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AiOutlineLogout } from "react-icons/ai";
 import "../styles/navbar.css";
 
 function Navbar() {
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
-    const [open, setOpen] = useState(false);
+  const handleLogout = () => {
+    localStorage.removeItem("loggedUser");
+    navigate("/login");
+  };
 
-    return (
-        <nav className="navbar">
+  return (
+    <nav className="navbar">
+      {/* LEFT */}
+      <div className="navbar-left">
+        <button
+          className="logout-btn"
+          onClick={handleLogout}
+          title="Logout"
+        >
+          <AiOutlineLogout />
+        </button>
 
-            {/* LOGO */}
-            <div className="logo">
-                🟠 TechBlog
-            </div>
+        <div className="logo">
+          🟠 TechBlog
+        </div>
+      </div>
 
-            {/* MENU DESKTOP */}
-            <ul className={`nav-links ${open ? "active" : ""}`}>
+      {/* MENU */}
+      <ul className={`nav-links ${open ? "active" : ""}`}>
+        <li>
+          <Link to="/home" onClick={() => setOpen(false)}>
+            Home
+          </Link>
+        </li>
 
-                <li><Link to="/" onClick={() => setOpen(false)}>Home</Link></li>
-                <li><Link to="/articles" onClick={() => setOpen(false)}>Articles</Link></li>
-                <li><Link to="/create" onClick={() => setOpen(false)}>Create</Link></li>
-                <li><Link to="/about" onClick={() => setOpen(false)}>About</Link></li>
-                <li><Link to="/contact" onClick={() => setOpen(false)}>Contact</Link></li>
+        <li>
+          <Link to="/articles" onClick={() => setOpen(false)}>
+            Articles
+          </Link>
+        </li>
 
-            </ul>
+        <li>
+          <Link to="/create" onClick={() => setOpen(false)}>
+            Create
+          </Link>
+        </li>
 
-            {/* HAMBURGER MENU */}
-            <div className="menu-icon" onClick={() => setOpen(!open)}>
-                ☰
-            </div>
+        <li>
+          <Link to="/about" onClick={() => setOpen(false)}>
+            About
+          </Link>
+        </li>
 
-        </nav>
-    );
+        <li>
+          <Link to="/contact" onClick={() => setOpen(false)}>
+            Contact
+          </Link>
+        </li>
+      </ul>
+
+      {/* MOBILE MENU */}
+      <div
+        className="menu-icon"
+        onClick={() => setOpen(!open)}
+      >
+        ☰
+      </div>
+    </nav>
+  );
 }
 
 export default Navbar;

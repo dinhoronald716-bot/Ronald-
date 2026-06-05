@@ -9,18 +9,22 @@ import Contact from "../pages/Contact";
 import About from "../pages/About";
 import CreateArticle from "../pages/CreateArticle";
 
+// 🔐 Private Route
 const PrivateRoute = ({ children }) => {
-  const user = JSON.parse(localStorage.getItem("loggedUser"));
+  const user = localStorage.getItem("loggedUser");
 
-  return user ? children : <Navigate to="/login" />;
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
 };
-
 function AppRoutes() {
   return (
     <Routes>
 
-      {/* 🔥 LOGIN FIRST PAGE */}
-      <Route path="/" element={<Navigate to="/login" />} />
+      {/* 🔥 ROOT → LOGIN */}
+      <Route path="/" element={<Navigate to="/login" replace />} />
 
       {/* AUTH PAGES */}
       <Route path="/login" element={<Login />} />

@@ -8,7 +8,17 @@ async function seedDb() {
             content TEXT NOT NULL,
             category TEXT DEFAULT 'general',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
+        );
+    `);
+
+    await db.query(`
+        CREATE TABLE IF NOT EXISTS users (
+            id SERIAL PRIMARY KEY,
+            name VARCHAR(100) NOT NULL,
+            email VARCHAR(150) UNIQUE NOT NULL,
+            password VARCHAR(255) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
     `);
 
     const result = await db.query("SELECT COUNT(*) FROM articles");

@@ -125,16 +125,15 @@ body {
   font-size: 0.95rem;
 }
 
-/* ACTIONS */
+/* ACTIONS (FIX ALIGNMENT IMPORTANT) */
 .actions {
   margin-top: 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 12px;
+  flex-wrap: nowrap; /* 🔥 IMPORTANT FIX */
 }
-
 /* READ BUTTON */
 .btn-read {
   background: linear-gradient(135deg, #ff7a00, #ff4500);
@@ -145,6 +144,7 @@ body {
   cursor: pointer;
   font-weight: 600;
   transition: 0.3s;
+  white-space: nowrap;
 }
 
 .btn-read:hover {
@@ -156,6 +156,7 @@ body {
 .reactions {
   display: flex;
   gap: 8px;
+  align-items: center;
 }
 
 /* LIKE + DISLIKE */
@@ -221,6 +222,7 @@ body {
 
   .reactions {
     justify-content: space-between;
+    width: 100%;
   }
 }
 

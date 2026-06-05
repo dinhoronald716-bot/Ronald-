@@ -2,6 +2,7 @@ body {
   background: radial-gradient(circle at top, #0f0f0f, #000000);
   font-family: "Segoe UI", sans-serif;
   color: white;
+  height: 100%;
 }
 
 /* CONTAINER */
@@ -10,6 +11,9 @@ body {
   max-width: 1000px;
   margin: auto;
   padding: 40px 0;
+  min-height: 100vh;   /* 🔥 prend toute la hauteur écran */
+  display: flex;
+  flex-direction: column
 }
 
 /* CARD HEADER */
@@ -92,6 +96,7 @@ body {
   border: 1px solid #222;
   padding: 25px;
   border-radius: 18px;
+  flex: 1;
 }
 
 .content-card h2 {

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 import "../styles/auth.css";
 
 function Login() {
@@ -8,37 +9,49 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/users/login",
+        {
+          email,
+          password,
+        }
+      );
 
-    const user = users.find(
-      (u) => u.email === email && u.password === password
-    );
+      localStorage.setItem("loggedUser", JSON.stringify(res.data));
 
-    if (!user) {
-      alert("Invalid credentials ❌");
-      return;
+      alert("Login successful 🚀");
+
+      setTimeout(() => {
+        navigate("/home", { replace: true });
+      }, 0);
+
+    } catch (error) {
+      alert(
+        error.response?.data?.message ||
+        "Invalid credentials ❌"
+      );
     }
-
-    localStorage.setItem("loggedUser", JSON.stringify(user));
-
-    alert("Login successful 🚀");
-
-    navigate("/home");
- };
+  };
 
   return (
     <div className="auth-container">
-      <form className="auth-form" onSubmit={handleLogin}>
+      <form
+        className="auth-form"
+        onSubmit={handleLogin}
+      >
         <h1>Login</h1>
 
         <input
           type="email"
-          placeholder="Email"
+          placeholder="Email Address"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) =>
+            setEmail(e.target.value)
+          }
           required
         />
 
@@ -46,14 +59,21 @@ function Login() {
           type="password"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) =>
+            setPassword(e.target.value)
+          }
           required
         />
 
-        <button type="submit">Login</button>
+        <button type="submit">
+          Login
+        </button>
 
         <p>
-          Don't have account? <Link to="/register">Register</Link>
+          Don't have an account?{" "}
+          <Link to="/register">
+            Register
+          </Link>
         </p>
       </form>
     </div>

@@ -30,9 +30,12 @@ function Articles() {
   const fetchArticles = async () => {
     try {
       const response = await getArticles();
-      setArticles(response.data);
+
+      // 🔥 FIX IMPORTANT (sécurité backend)
+      setArticles(response?.data || []);
     } catch (error) {
       console.error("Erreur :", error);
+      setArticles([]); // éviter page blanche
     }
   };
 
@@ -57,7 +60,6 @@ function Articles() {
     } else {
       updatedLikes.push(id);
 
-      // enlever dislike si existe
       updatedDislikes = updatedDislikes.filter((item) => item !== id);
 
       setArticles((prev) =>
@@ -66,8 +68,7 @@ function Articles() {
             ? {
                 ...article,
                 likes: (article.likes || 0) + 1,
-                dislikes:
-                  article.dislikes > 0 ? article.dislikes - 1 : 0,
+                dislikes: Math.max((article.dislikes || 0) - 1, 0),
               }
             : article
         )
@@ -78,10 +79,7 @@ function Articles() {
     setDislikedArticles(updatedDislikes);
 
     localStorage.setItem("likedArticles", JSON.stringify(updatedLikes));
-    localStorage.setItem(
-      "dislikedArticles",
-      JSON.stringify(updatedDislikes)
-    );
+    localStorage.setItem("dislikedArticles", JSON.stringify(updatedDislikes));
   };
 
   // DISLIKE
@@ -113,7 +111,7 @@ function Articles() {
             ? {
                 ...article,
                 dislikes: (article.dislikes || 0) + 1,
-                likes: article.likes > 0 ? article.likes - 1 : 0,
+                likes: Math.max((article.likes || 0) - 1, 0),
               }
             : article
         )
@@ -123,20 +121,16 @@ function Articles() {
     setDislikedArticles(updatedDislikes);
     setLikedArticles(updatedLikes);
 
-    localStorage.setItem(
-      "dislikedArticles",
-      JSON.stringify(updatedDislikes)
-    );
+    localStorage.setItem("dislikedArticles", JSON.stringify(updatedDislikes));
     localStorage.setItem("likedArticles", JSON.stringify(updatedLikes));
   };
 
   const filteredArticles = articles.filter((article) =>
-    article.title.toLowerCase().includes(search.toLowerCase())
+    (article.title || "").toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <div className="articles-page">
-      {/* HEADER */}
       <header className="header">
         <div>
           <h1>🚀 Tech Articles</h1>
@@ -148,7 +142,6 @@ function Articles() {
         </Link>
       </header>
 
-      {/* SEARCH */}
       <input
         type="text"
         className="search"
@@ -157,7 +150,6 @@ function Articles() {
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      {/* GRID */}
       <div className="grid">
         {filteredArticles.length > 0 ? (
           filteredArticles.map((article) => (
@@ -175,9 +167,7 @@ function Articles() {
                   <button className="btn-read">Read More</button>
                 </Link>
 
-                {/* REACTIONS */}
                 <div className="reactions">
-                  {/* LIKE */}
                   <button
                     className={`like-btn ${
                       likedArticles.includes(article.id) ? "liked" : ""
@@ -192,7 +182,6 @@ function Articles() {
                     <span>{article.likes || 0}</span>
                   </button>
 
-                  {/* DISLIKE */}
                   <button
                     className={`dislike-btn ${
                       dislikedArticles.includes(article.id)

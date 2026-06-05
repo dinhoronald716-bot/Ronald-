@@ -7,7 +7,7 @@
 body {
     background: #0f172a;
     color: white;
-
+    height: 100%;
     font-family: Arial, sans-serif;
 }
 
@@ -36,4 +36,13 @@ body {
 #root {
     display: flex;
     flex-direction: column;
+}
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1; /* 🔥 pousse footer en bas */
 }

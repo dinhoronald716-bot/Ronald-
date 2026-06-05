@@ -1,100 +1,146 @@
-/* ======================
-   NAVBAR BASE
-====================== */
-.navbar {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    padding: 15px 60px;
-    background: #0f172a;
-    border-bottom: 1px solid #1f2937;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* LOGO */
+.navbar {
+  background: #111827;
+  height: 75px;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #1f2937;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* LEFT */
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
 .logo {
-    font-size: 22px;
-    font-weight: bold;
-    color: #f97316;
+  color: white;
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+/* LOGOUT */
+
+.logout-btn {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    #f97316,
+    #ea580c
+  );
+  color: white;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
 }
 
 /* LINKS */
+
 .nav-links {
-    display: flex;
-    gap: 25px;
-    list-style: none;
+  list-style: none;
+  display: flex;
+  gap: 25px;
 }
 
 .nav-links li a {
-    text-decoration: none;
-    color: #cbd5e1;
-    font-size: 15px;
-    transition: 0.3s;
-    position: relative;
-}
-
-/* hover effect */
-.nav-links li a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -5px;
-    width: 0%;
-    height: 2px;
-    background: #f97316;
-    transition: 0.3s;
+  color: #e5e7eb;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+  position: relative;
 }
 
 .nav-links li a:hover {
-    color: white;
+  color: #f97316;
+}
+
+.nav-links li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: #f97316;
+  transition: 0.3s;
 }
 
 .nav-links li a:hover::after {
-    width: 100%;
+  width: 100%;
 }
 
-/* HAMBURGER */
+/* MOBILE */
+
 .menu-icon {
-    display: none;
-    font-size: 28px;
-    color: white;
-    cursor: pointer;
+  display: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
 }
 
-/* ======================
-   MOBILE RESPONSIVE
-====================== */
+/* RESPONSIVE */
+
 @media (max-width: 768px) {
+  .menu-icon {
+    display: block;
+  }
 
-    .menu-icon {
-        display: block;
-    }
+  .nav-links {
+    position: absolute;
+    top: 75px;
+    left: -100%;
+    width: 100%;
+    background: #111827;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px 0;
+    transition: 0.3s;
+  }
 
-    .nav-links {
-        position: absolute;
-        top: 60px;
-        right: 0;
+  .nav-links.active {
+    left: 0;
+  }
 
-        flex-direction: column;
-        background: #111827;
+  .nav-links li {
+    margin: 15px 0;
+  }
 
-        width: 220px;
-        padding: 20px;
+  .navbar {
+    padding: 0 20px;
+  }
 
-        border-radius: 10px;
+  .logo {
+    font-size: 1.3rem;
+  }
+}
 
-        display: none;
-    }
+@media (max-width: 480px) {
+  .logout-btn {
+    width: 38px;
+    height: 38px;
+  }
 
-    .nav-links.active {
-        display: flex;
-    }
-
-    .nav-links li {
-        padding: 10px 0;
-    }
+  .logo {
+    font-size: 1.1rem;
+  }
 }
