@@ -6,7 +6,11 @@ const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
-app.use(cors());
+import cors from "cors";
+
+app.use(cors({
+  origin: "*"
+}));
 app.use(express.json());
 
 // routes
