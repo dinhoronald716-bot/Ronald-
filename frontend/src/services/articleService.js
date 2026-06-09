@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "https://ronald-backend.onrender.com/api";
+const API = "https://ronald-backend.onrender.com/api/articles";
 
 export const getArticles = () => axios.get(API);
 export const createArticle = (data) => axios.post(API, data);
