@@ -9,8 +9,7 @@ const PORT = process.env.PORT || 5000;
 app.use("/api/users", userRoutes);
 
 // seed database
-seedDb();
-
-app.listen(PORT, "0.0.0.0", () => {
+app.listen(PORT, async () => {
   console.log(`🚀 Server running on port ${PORT}`);
+  await seedDb();
 });
