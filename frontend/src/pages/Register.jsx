@@ -40,53 +40,69 @@ function Register() {
 
   return (
     <div className="auth-container">
-      <form
-        className="auth-form"
-        onSubmit={handleRegister}
-      >
-        <h1>Create Account</h1>
-
-        <input
-          type="text"
-          placeholder="Full Name"
-          value={name}
-          onChange={(e) =>
-            setName(e.target.value)
-          }
-          required
-        />
-
-        <input
-          type="email"
-          placeholder="Email Address"
-          value={email}
-          onChange={(e) =>
-            setEmail(e.target.value)
-          }
-          required
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) =>
-            setPassword(e.target.value)
-          }
-          required
-        />
-
-        <button type="submit">
-          Register
-        </button>
-
-        <p>
-          Already have an account?{" "}
-          <Link to="/login">
-            Login
-          </Link>
-        </p>
-      </form>
+      <div className="auth-box">
+  
+        {/* LEFT INFO */}
+        <div className="auth-info">
+          <h2>Join Our Platform 🚀</h2>
+          <p>
+            Create your account and start learning,
+            building and growing your skills.
+          </p>
+  
+          <div className="info-block">
+            <h4>🎯 Benefits</h4>
+            <p>Access courses, projects and community tools.</p>
+          </div>
+  
+          <div className="info-block">
+            <h4>🔐 Secure</h4>
+            <p>Your data is protected with modern security.</p>
+          </div>
+  
+          <div className="info-block">
+            <h4>🌍 Community</h4>
+            <p>Connect with developers worldwide.</p>
+          </div>
+        </div>
+  
+        {/* RIGHT FORM */}
+        <form className="auth-form" onSubmit={handleRegister}>
+          <h1>Create Account</h1>
+  
+          <input
+            type="text"
+            placeholder="Full Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+  
+          <input
+            type="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+  
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+  
+          <button type="submit">Register</button>
+  
+          <p>
+            Already have an account?{" "}
+            <Link to="/login">Login</Link>
+          </p>
+        </form>
+  
+      </div>
     </div>
   );
 }
