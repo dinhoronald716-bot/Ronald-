@@ -18,20 +18,20 @@
 }
 
 /* =========================
-   MAIN CARD (PRO GLASS)
+   MAIN CARD (GLASS ULTRA)
 ========================= */
 .auth-box {
   display: flex;
   width: 100%;
   max-width: 1100px;
-  min-height: 600px;
-  background: rgba(17, 24, 39, 0.65);
+  min-height: 620px;
+  background: rgba(17, 24, 39, 0.6);
   backdrop-filter: blur(25px);
   border-radius: 28px;
   overflow: hidden;
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: 0.3s;
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: 0.3s ease;
 }
 
 .auth-box:hover {
@@ -43,7 +43,7 @@
 ========================= */
 .auth-info {
   flex: 1;
-  padding: 55px;
+  padding: 60px;
   color: white;
   background: linear-gradient(135deg, #0f172a, #020617);
   display: flex;
@@ -52,9 +52,9 @@
 }
 
 .auth-info h2 {
-  font-size: 30px;
-  margin-bottom: 12px;
-  color: #ffffff;
+  font-size: 32px;
+  margin-bottom: 10px;
+  color: #fff;
 }
 
 .auth-info p {
@@ -63,6 +63,7 @@
   line-height: 1.7;
 }
 
+/* INFO BLOCKS */
 .info-block {
   margin-top: 18px;
   padding: 14px;
@@ -90,21 +91,31 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 55px;
-  gap: 15px;
+  padding: 60px;
+  gap: 14px;
   position: relative;
 }
 
+/* =========================
+   TITLE (ULTRA PRO MAX)
+========================= */
 .auth-form h1 {
-  color: white;
-  font-size: 32px;
-  margin-bottom: 10px;
+  font-size: 36px;
+  font-weight: 900;
   text-align: center;
+
+  background: linear-gradient(135deg, #ffffff, #f97316, #fb923c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
   letter-spacing: 1px;
+
+  text-shadow: 0 0 25px rgba(249, 115, 22, 0.15);
+  margin-bottom: 10px;
 }
 
 /* =========================
-   INPUTS (MODERN STYLE)
+   INPUTS
 ========================= */
 .auth-form input {
   padding: 14px;
@@ -113,18 +124,18 @@
   outline: none;
   background: #0f172a;
   color: white;
-  transition: 0.25s ease;
   font-size: 14px;
+  transition: 0.25s ease;
 }
 
 .auth-form input:focus {
   border: 1px solid #f97316;
-  box-shadow: 0 0 12px rgba(249, 115, 22, 0.35);
+  box-shadow: 0 0 15px rgba(249, 115, 22, 0.3);
   transform: scale(1.02);
 }
 
 /* =========================
-   BUTTON (PRO ORANGE)
+   BUTTON
 ========================= */
 .auth-form button {
   padding: 14px;
@@ -134,29 +145,28 @@
   color: black;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.25s ease;
   font-size: 15px;
+  transition: 0.25s ease;
 }
 
 .auth-form button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 30px rgba(249, 115, 22, 0.35);
+  box-shadow: 0 15px 35px rgba(249, 115, 22, 0.35);
 }
 
 /* =========================
    TEXT LINK
 ========================= */
 .auth-form p {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
   text-align: center;
-  margin-top: 10px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 14px;
 }
 
 .auth-form a {
   color: #f97316;
-  text-decoration: none;
   font-weight: bold;
+  text-decoration: none;
 }
 
 .auth-form a:hover {
@@ -164,15 +174,15 @@
 }
 
 /* =========================
-   DIVIDER (OR)
+   DIVIDER
 ========================= */
 .divider {
   display: flex;
   align-items: center;
   text-align: center;
-  color: #9ca3af;
   font-size: 12px;
-  margin: 12px 0;
+  color: #9ca3af;
+  margin: 10px 0;
 }
 
 .divider::before,
@@ -200,7 +210,6 @@
   cursor: pointer;
   font-weight: bold;
   transition: 0.25s ease;
-  font-size: 14px;
 }
 
 .google-btn {
@@ -219,12 +228,78 @@
 }
 
 .github-btn:hover {
-  background: #000000;
+  background: #000;
   transform: translateY(-2px);
 }
 
 /* =========================
-   RESPONSIVE (IMPORTANT)
+   ABOUT / HISTORY / VISION CARD (BOTTOM)
+========================= */
+.auth-bottom-card {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 15px;
+
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  backdrop-filter: blur(12px);
+  text-align: center;
+
+  transition: 0.3s;
+}
+
+.auth-bottom-card:hover {
+  transform: translateY(-4px);
+  border: 1px solid rgba(249, 115, 22, 0.4);
+}
+
+.auth-bottom-card h3 {
+  color: #f97316;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.auth-bottom-card p {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.5;
+}
+
+/* TAGS */
+.auth-bottom-tags {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.auth-bottom-tags span {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 20px;
+
+  background: rgba(249, 115, 22, 0.1);
+  color: #f97316;
+
+  border: 1px solid rgba(249, 115, 22, 0.2);
+}
+
+/* =========================
+   FOOTER TEXT (OPTIONAL)
+========================= */
+.auth-footer {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* =========================
+   RESPONSIVE
 ========================= */
 @media (max-width: 900px) {
   .auth-box {
